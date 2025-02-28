@@ -1,48 +1,55 @@
-#include "tasks.h"
 #include"functions.h"
 
 #include <stdio.h>
 
-
-
-void chooseTask(const int choice)
-{
-    switch (choice)
-    {
-    case 1:
-        task1();
-        break;
-
-    case 2:
-        task2();
-        break;
-
-    case 3:
-        task3();
-        break;
-
-    case 4: 
-        task4();
-        break;
-
-    default:;
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        printf("Error!\n");
+        return 1;
     }
-}
 
+    FILE* file = fopen(argv[1], "w+b");
 
-int main()
-{
-    //setlocale(LC_ALL, "Rus");
+    puts("\nEnter the task number (1-4) or 5 to exit.");
+    int choice = inputIntegerInRange(1, 5);
 
-    while (1)
-    {
-        puts("\nEnter the task number (1-4) or 5 to exit.");
+    if (choice == 1) {
+        fillFileManually(file);
 
-        const int choice = inputIntegerInRange(1, 5);
+        printFile(file);
 
-        if (choice != 5)
-            chooseTask(choice);
-        else
-            return 0;
+        fclose(file);
+    }
+    else if (choice == 2) {
+        fillFileManually(file);
+
+        printFile(file);
+
+        printf("\nThe quantity of numbers is less than the specified one = %d\n", calculateCountOfSmallerNumbers(file));
+        
+        fclose(file);
+    }
+    else if (choice == 3) {
+        fillFileManually(file);
+
+        printFile(file);
+
+        printf("Enter reference const number: ");
+        int reference_value = inputIntegerInRange(0, 100);
+        
+        deleteElements(file, reference_value);
+    }
+    else if (choice == 4) {
+        fillFileManually(file);
+
+        printFile(file);
+
+        sortFile(file);
+
+        printFile(file);
+    }
+    else if (choice == 5) {
+        fclose(file);
+        exit(1);
     }
 }
